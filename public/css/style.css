@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: monospace;
+  overflow-x: hidden;
+}
+
+#controls {
+  padding: 1rem;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+#previous-dir {
+  background-color: #fff;
+  color: #000;
+}
+
+#view-type {
+  font-size: 1.4rem;
+  word-spacing: 0.5rem;
+}
+
+#view-type i {
+  padding: 0.25rem 0.25rem 0.225rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+#view-type i.active {
+  background-color: #fff;
+  color: #000;
+}
+
+#main {
+  padding-left: 1rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-height: 90vh;
+}
+
+#main i {
+  font-size: 1.2rem;
+}
+
+#main .file,
+#previous-dir,
+#view-type i {
+  cursor: pointer;
+  user-select: none;
+}
+
+#main .file,
+#previous-dir,
+#main .file-edit-name {
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+#main .file,
+#previous-dir {
+  justify-content: start;
+  padding: 0.5rem;
+  gap: 0.75rem;
+}
+
+#main .file,
+#main .file-edit-name {
+  width: 300px;
+  min-height: 50px;
+}
+
+main .file {
+  background-color: #000;
+  color: #fff;
+}
+
+#main .file:hover,
+#view-type i:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+#main .file .edit-name {
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+}
+
+#change-name {
+  margin-left: 4px;
+  padding: 0.2rem 0.3rem;
+  border-radius: 0.25rem;
+}
+
+#main .file .edit-name:hover,
+#change-name:hover {
+  box-shadow: 0 0 2px #000000b1;
+}
+
+.file-edit-name {
+  gap: 0.25rem;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: #fff;
+  color: #000;
+}
+
+#file-name-input,
+#file-extension-input {
+  border: 1px solid #0007;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  font-family: monospace;
+}
+
+#file-name-input:focus,
+#file-extension-input:focus {
+  outline: none;
+}
+
+#file-name-input {
+  flex-grow: 1;
+}
+
+#file-extension-input {
+  width: 55px;
+}
+
+#location {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  margin: 0.25rem;
+  font-size: 0.8rem;
+}

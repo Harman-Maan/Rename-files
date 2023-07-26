@@ -1,0 +1,68 @@
+.fa-folder {
+  color: #d68b00;
+}
+
+.fa-html5 {
+  color: #f81a1a;
+}
+
+.fa-css3-alt {
+  color: #007ad7;
+}
+
+.fa-js {
+  color: #ffff00;
+}
+
+.fa-file-pdf {
+  color: #e6310c;
+}
+
+.fa-file-doc {
+  color: #4682b4;
+}
+
+.fa-image {
+  color: #009824;
+}
+
+.fa-play {
+  color: #ff0000;
+}
+
+.fa-gif {
+  color: #d99206;
+}
+
+.fa-music {
+  color: #800ccd;
+}
+
+.fa-file:hover {
+  color: #000;
+}
+
+.fa-book {
+  color: #488091;
+}
+
+.fa-file-lines,
+.fa-file-word {
+  color: #89b4ff;
+}
+
+.fa-file-zipper {
+  color: #ef9b00;
+}
+
+.fa-markdown {
+  color: #b186ff;
+}
+
+.fa-sass {
+  color: #f123ba;
+}
+
+.fa-share {
+  color: #6fffd4;
+}
