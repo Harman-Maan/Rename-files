@@ -45,10 +45,13 @@ app.post("^/files-list$", async (req, res) => {
   }
 });
 
-app.post("^rename-file$", (req, res) => {
+app.post("^/rename-file$", (req, res) => {
   console.log("request recieved", req.body);
 
-  fs.rename(req.body.oldPath, req.body.newPath, (err) => {
+  const oldPath = path.join(req.body.oldPath);
+  const newPath = path.join(req.body.newPath);
+
+  fs.rename(oldPath, newPath, (err) => {
     console.log(err);
   });
 });

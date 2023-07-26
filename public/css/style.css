@@ -55,54 +55,60 @@ body {
   flex-wrap: wrap;
   flex-wrap: wrap;
   gap: 1rem;
-  max-height: 90vh;
+  width: 100%;
+}
+
+#main #folder-empty {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0 auto;
 }
 
 #main i {
   font-size: 1.2rem;
 }
 
-#main .file,
+#main .item,
 #previous-dir,
 #view-type i {
   cursor: pointer;
   user-select: none;
 }
 
-#main .file,
+#main .item,
 #previous-dir,
-#main .file-edit-name {
+#main .edit-item-name {
   border-radius: 0.5rem;
   display: flex;
   align-items: center;
   font-size: 1rem;
 }
 
-#main .file,
+#main .item,
 #previous-dir {
   justify-content: start;
   padding: 0.5rem;
   gap: 0.75rem;
 }
 
-#main .file,
-#main .file-edit-name {
+#main .item,
+#main .edit-item-name {
   width: 300px;
   min-height: 50px;
 }
 
-main .file {
+main .item {
   background-color: #000;
   color: #fff;
 }
 
-#main .file:hover,
+#main .item:hover,
 #view-type i:hover {
   background-color: #fff;
   color: #000;
 }
 
-#main .file .edit-name {
+#main .item .edit-name {
   padding: 0.2rem;
   border-radius: 0.25rem;
 }
@@ -113,12 +119,12 @@ main .file {
   border-radius: 0.25rem;
 }
 
-#main .file .edit-name:hover,
+#main .item .edit-name:hover,
 #change-name:hover {
   box-shadow: 0 0 2px #000000b1;
 }
 
-.file-edit-name {
+.edit-item-name {
   gap: 0.25rem;
   justify-content: center;
   padding: 0.5rem;
@@ -126,7 +132,7 @@ main .file {
   color: #000;
 }
 
-#file-name-input,
+#item-name-input,
 #file-extension-input {
   border: 1px solid #0007;
   padding: 0.25rem;
@@ -134,17 +140,17 @@ main .file {
   font-family: monospace;
 }
 
-#file-name-input:focus,
+#item-name-input:focus,
 #file-extension-input:focus {
   outline: none;
 }
 
-#file-name-input {
+#item-name-input {
   flex-grow: 1;
 }
 
 #file-extension-input {
-  width: 55px;
+  width: 50px;
 }
 
 #location {

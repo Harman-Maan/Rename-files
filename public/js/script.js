@@ -25,7 +25,6 @@ xhttp.onreadystatechange = function () {
     let response = JSON.parse(xhttp.responseText);
     currentPath = response.path;
     displayCurrentPath.innerHTML = currentPath;
-    console.log(response);
     displayFiles(response.dirContent);
     previousDirBtnState();
   }
@@ -47,6 +46,10 @@ function displayFiles(files) {
   let filterdArr = files.filter((file) => {
     if (!/\.ini$/.test(file.name)) return true;
   });
+  if (filterdArr.length == 0) {
+    main.innerHTML = "<p id='folder-empty'>Folder Empty</p>";
+    return;
+  }
   let fileContent = [];
 
   let mappedArr = filterdArr.map((file) => {
@@ -57,10 +60,10 @@ function displayFiles(files) {
       icon,
       extension,
       name,
-      stat: file.stats,
+      type: file.type,
     });
 
-    return `<div class="file">
+    return `<div class="${file.type} item">
             <i class="${icon}"></i>
             <i class="fa-solid fa-pencil edit-name"></i>
             <p class="file-name">${file.name}</p>
@@ -69,17 +72,21 @@ function displayFiles(files) {
   main.innerHTML = mappedArr.join(" ");
 
   // Adding "click" even listeners
-  let filesElements = document.querySelectorAll(".file");
+  let allItems = document.querySelectorAll(".item");
   let editNameElements = document.querySelectorAll(".edit-name");
 
-  for (let i = 0; i < filesElements.length; i++) {
+  for (let i = 0; i < fileContent.length; i++) {
     let pathToFile = fileContent[i].path;
-    filesElements[i].addEventListener("dblclick", () => {
-      getFilesList(pathToFile);
-    });
+
+    if (allItems[i].classList.contains("dir")) {
+      allItems[i].addEventListener("dblclick", () => {
+        getFilesList(pathToFile);
+      });
+    }
+
     editNameElements[i].addEventListener("click", (event) => {
       event.stopPropagation();
-      editName(filesElements[i], fileContent[i]);
+      rename(allItems[i], fileContent[i], pathToFile);
     });
   }
 }
@@ -88,7 +95,6 @@ function getFileIcon({ name, type }) {
   if (type == "dir") {
     return [icons.folder, name, ""];
   } else {
-    console.log(name);
     let fileName = name.match(/^.*((?=\.\w+))/)[0];
     let extension = name.match(/\w+$/)[0];
     for (let icon in icons) {
@@ -100,41 +106,47 @@ function getFileIcon({ name, type }) {
   }
 }
 
-function editName(fileEl, fileContent) {
-  let oldHtml = fileEl.innerHTML;
+function rename(clickedItem, fileContent, oldPath) {
+  let oldHtml = clickedItem.innerHTML;
 
-  fileEl.classList.replace("file", "file-edit-name");
-  fileEl.innerHTML = `
+  clickedItem.classList.replace("item", "edit-item-name");
+  clickedItem.innerHTML = `
   <i class="${fileContent.icon}"></i>
-      <input type="text" id="file-name-input" value="${fileContent.name}" placeholder="New name" required>
-      ${fileContent.extension ? `.<input type="text" id="file-extension-input" value="${fileContent.extension} required">` : ""}
+      <input type="text" id="item-name-input" value="${fileContent.name}" placeholder="New name" required>
+      ${fileContent.extension ? `.<input type="text" id="file-extension-input" value="${fileContent.extension}" required>` : ""}
       <i class="fa-solid fa-check" id="change-name"></i>
   `;
 
   //Autoselect the input field value  when user clicks in it.
-  let fileNameInput = document.getElementById("file-name-input");
+  let itemNameInput = document.getElementById("item-name-input");
   let fileExtensionInput = document.getElementById("file-extension-input");
-  let changeName = document.getElementById("change-name");
 
   function autoSelect() {
     this.select();
   }
-  fileNameInput.addEventListener("click", autoSelect);
+  itemNameInput.addEventListener("click", autoSelect);
   if (fileContent.extension) fileExtensionInput.addEventListener("click", autoSelect);
+
+  let changeName = document.getElementById("change-name");
+  changeName.addEventListener("click", () => {
+    console.log("ran");
+    sendRenameRequest(oldPath, `${itemNameInput.value}.${fileExtensionInput.value}`);
+    // if (itemNameInput.value == fileContent.name && fileExtensionInput && fileExtensionInput.value == fileContent.extension) alert("Nothing to Change");
+    // else sendRenameRequest(oldPath, `${itemNameInput.value}.${fileExtensionInput.value}`);
+  });
 
   // If user clicks somewhere else on screen
   function handleOutsideClick(event) {
-    if (!fileEl.contains(event.target)) {
-      fileEl.classList.replace("file-edit-name", "file");
-      fileEl.innerHTML = oldHtml;
-
+    if (!clickedItem.contains(event.target)) {
+      clickedItem.classList.replace("edit-item-name", "item");
+      clickedItem.innerHTML = oldHtml;
       document.removeEventListener("click", handleOutsideClick);
     }
   }
   document.addEventListener("click", handleOutsideClick);
 }
 
-function renameFile(oldPath, newName) {
+function sendRenameRequest(oldPath, newName) {
   let url = "http://localhost:3500/rename-file";
 
   let newPath = oldPath.replace(/((@|\(|\)|\s|\w+)*)?\w+((\s*\w+|-|\.|'|"|\(|\)|@|\{|\})*)?(?!\/)$/, newName);
