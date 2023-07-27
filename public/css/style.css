@@ -29,6 +29,7 @@ body {
 #previous-dir {
   background-color: #fff;
   color: #000;
+  border: none;
 }
 
 #view-type {
@@ -160,4 +161,12 @@ main .item {
   width: 100%;
   margin: 0.25rem;
   font-size: 0.8rem;
+}
+
+#processing {
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
+  font-size: 1.1rem;
+  display: none;
 }

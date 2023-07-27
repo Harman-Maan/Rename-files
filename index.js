@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 const express = require("express");
-const { dir } = require("console");
 const app = express();
 
 const PORT = process.env.PORT || 3500;
@@ -23,14 +22,20 @@ app.post("^/files-list$", async (req, res) => {
     // Getting an Array of file in the Directory
     let dirContent = await fsPromises.readdir(path.join(receivedPath));
 
-    // Creating new an array of objects containing items name and
-    // if it is a file or dir(directory) from "dirContent".
+    // Creating new an array of objects containing items name, and
+    // if it is a file or dir(directory) from "dirContent", along with file extension.
     let dirContentWithStats = [];
     await (async () => {
       for (let item of dirContent) {
         const stats = await fsPromises.stat(path.join(receivedPath, item));
         let type = stats.isFile() ? "file" : "dir";
-        dirContentWithStats.push({ name: item, type });
+
+        let fileInfo = {
+          name: item,
+          type,
+        };
+        if (stats.isFile()) fileInfo.fileExtension = path.extname(path.join(receivedPath, item));
+        dirContentWithStats.push(fileInfo);
       }
     })();
 
@@ -38,6 +43,7 @@ app.post("^/files-list$", async (req, res) => {
     let response = {
       dirContent: dirContentWithStats,
       path: req.body.message,
+      id: "files_list",
     };
     res.send(JSON.stringify(response));
   } catch (err) {
@@ -45,15 +51,25 @@ app.post("^/files-list$", async (req, res) => {
   }
 });
 
-app.post("^/rename-file$", (req, res) => {
+app.post("^/rename-file$", async (req, res) => {
   console.log("request recieved", req.body);
 
   const oldPath = path.join(req.body.oldPath);
-  const newPath = path.join(req.body.newPath);
+  const directoryPath = path.dirname(oldPath);
 
-  fs.rename(oldPath, newPath, (err) => {
+  const newPath = path.join(directoryPath, req.body.newName);
+
+  await fsPromises.rename(oldPath, newPath, (err) => {
     console.log(err);
   });
+
+  let response = {
+    id: "rename_file",
+    fileName: path.basename(newPath),
+    message: "File Successfully renamed",
+  };
+
+  res.send(JSON.stringify(response));
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
