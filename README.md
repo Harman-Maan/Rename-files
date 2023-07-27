@@ -25,7 +25,7 @@ First things first, you'll need to have Node.js installed on your computer. Once
 4. Finally, open your web browser and go to "http://localhost:3500". Voilà! You're now ready to use "Rename-files."
 
 ## APIs and Dependencies
-This baby is still growing, and right now, it's got only one installed dependency—"express." No worries, though! We also use font-awesome icons via CDN, because why not? In the future, I might add more dependencies, but for now, it's all we need.
+This baby is still growing, and right now, it's got only one installed dependency—"express." We also use font-awesome icons via CDN, because why not? In the future, I might add more dependencies, but for now, it's all we need.
 
 ## File Structure
 Just a sneak peek into the project's file structure:
